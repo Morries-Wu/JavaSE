@@ -1,0 +1,110 @@
+反射概述
+    反射就是根据字节码文件,反射类的信息,反射类中的内容,根据字节码文件创建对象
+    访问字段,调用方法的技术
+
+    反射第一步获得字节码文件
+    准确的说反射的第一步是创建Class对象
+    把一组小猫抽象为Cat类,把一组小狗抽象为Dog类
+
+    如何创建Class对象?如何获得字节码文件?
+    1、每个类都有Class属性
+    Class class1=String.class;      String是类名
+    2、每个对象都有getClass()方法(从Object类继承的)
+    Class class2="hello".getClass();    "hello"字符串是String对象
+    3、通过Class类的静态方法forName创建Class.forName(完整类名)
+    Class class3=Class.forName("Annotation.Student");
+    以上三种方法区别:
+    Class.forName(完整名)这种方式会执行类的静态代码块,后面JDBC驱动程序的加载就是这种方式
+    类名.class这种方式不会执行类的静态代码块
+    4、基本类型也有class属性
+    Class class4=int.class;
+    5、包装类和TYPE
+    Class class5=Integer.TYPE;
+
+1、反射第一步创建class对象,即拿到类的字节码文件
+        Class clz=String.class;
+        类的修饰符,modifier
+        int mod=clz.getModifiers();   返回类的修饰符,注意返回值类型是int整数
+        java.lang.reflect.Modifier修饰类
+        该类提供静态方法toString(int)可以把整数转化为字符
+2、类名
+        clz.getName();        返回完整类名
+        clz.getSimpleName();  返回简易类名
+3、父类
+        Class super=class.getSuperclass();  方法返回值类型是Class类型
+        super.getSimpleName();
+4、接口
+        Class []clzs=class.getInterfaces();  返回值是数组
+        类可以同时实现多个接口,如果类没有接口则数组长度为0
+
+反射字段
+    Field fieldx=clz.getField("字段名");    反射指定名称的公共字段(public修饰的)
+    clz.getDeclaredFields();      反射所有的字段
+    clz.getDeclaredField(字段名);  反射任意权限的字段(public,protected,private)
+    如果是静态字段,对象名位置传递null
+    如果没有访问权限,可以设置setAccessible(true)
+
+    反射创建对象
+        类中的字段分为实例字段与静态字段
+        实例字段就是实例变量,它是属于某一个具体对象的,每个对象都有自己的实例变量
+        如果想要访问实例变量,必须先创建对象
+    创建对象可以有两种方式:
+        1、直接通过class字节码创建对象,会默认调用类的无参构造
+        2、先反射构造方法,再通过构造方法创建对象
+    直接通过Class对象创建MyClass实例
+    Object obj=clz.newInstance();     默认调用MyClass类的无参构造方法
+    先反射构造方法,再通过构造方法创建实例
+    Constructor constructor=clz.getConstructor(int.class,int.class);
+    构造方法的形参列表,返回构造方法
+    User user=constructor.newInstance(10,20);   构造方法的实参列表
+
+    User u4 = (User) clazz.newInstance();
+    访问字段field.set(实例名,字段值)
+    fieldx.set(u4,11)      设置obj对象的x字段值是11
+    field.setAccessible
+    静态变量,在实例位置传递null
+    sField.set(null,666);
+
+JDK8新特性
+1、接口在jdk8中可以定义static方法与default方法
+2、数组增加了并行方法,paralleSort()
+3、新增了线程安全的日期API,java.time包
+4、对部分集合进行了
+    增强List增加了sort()排序
+    HabMap进行了提升:新增节点插入链表尾部,链表数量超过8会转为红黑树
+    ConcurrentHashMap原来采用分段锁协议,在JDK8中中改为CAS
+
+注解
+    注解就是程序中的一种特殊标记
+    在程序运行中,可以根据注解的附带信息进行不同的操作
+    java.lang包中定义一组基本注解
+    注解不影响程序运行
+        Deprecated  已过时,表示不建议使用
+        Functionallnterface 函数式接口,当接口中只有一个方法是抽象方法时
+        就可以声明为函数式接口,函数式接口可以使用Lambda表达式
+        Override 方法重写,可以告诉编译器验证方法重写是否正确
+        SuppressWarnings抑制警告
+
+    java.lang.annotation包中定义一组元注解
+    元注解就是修饰注解的注解
+    Java定义Override注解时
+    通过@Target元注解指定Override可以修饰哪个元素
+    通过Retention指定Override注解保留的时长
+    @Target(value = { ElementType.TYPE })       元注解
+    @Retention(RetentionPolicy.RUNTIME)         元注解   RUNTIME 注解保留到运行时
+    public @interface Override{            定义 Override注解
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

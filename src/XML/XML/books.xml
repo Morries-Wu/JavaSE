@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--<?xml version="1.0" encoding="utf-8" ?>
+以上是XML文件的声明
+version=“1.0”       version表示版本
+encoding=“utf-8”    encoding表示xml文件本身的编码
+
+-->
+
+<books>
+    <book sn="Sn123">
+        <name>Java-xml</name>
+        <author>Morries_Wu</author>
+        <price>998</price>
+    </book>
+    <book sn="Sn124">
+        <name>Java-从入门到放弃</name>
+        <author>李哥</author>
+        <price>9.9</price>
+    </book>
+</books>

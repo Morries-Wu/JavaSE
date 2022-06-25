@@ -1,0 +1,34 @@
+Class.forName("com.mysql.jdbc.Driver");
+Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/girls");
+String sql="select * from where StudentName=? and StudentId=?";
+String sql="select * from where StudentName="+stu.name+"and StudentId="+stu.id;
+
+deleteSql="delete from student where StudentName=? and StudentId=?";
+deleteSql="delete from student where StudentName="+stu.name+"and StudentId="stu.id;
+
+updateSql="update student set StudentAddress=?,StudentIp=? where StudentName=? and StudentId=?";
+updateSql="update student set StudentAddress="+stu.address+",StudentIp="+stu.Ip+"where where StudentName="+stu.name+"and StudentId="+stu.id;
+
+insertSql="insert into student(StudentName,StudentId) values(?,?)";
+insetSql="insert into student values("+stu.name+","+stu.id+")";
+
+
+PreparedStatement pst=con.prepareStatement(sql);
+Statement st=con.createStatement(sql);
+
+
+pst.setString(1,stu.name);
+pst.setString(2,stu.id);
+ResultSet res=pst.executeQuery();
+ResultSet res=st.executeQuery();
+
+while(res.next){
+
+
+}
+
+
+
+
+
+
