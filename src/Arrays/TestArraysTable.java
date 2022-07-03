@@ -2,7 +2,7 @@ package Arrays;
 
 import java.util.Arrays;
 
-//测试数组存储表格数据
+/*测试数组存储表格数据*/
 public class TestArraysTable {
 	public static void main(String[] args) {
 		Object emp1[] = { 1001, "祥哥", 18, "讲师", "2006.6.6" };

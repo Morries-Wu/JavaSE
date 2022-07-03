@@ -3,7 +3,7 @@ package BOX;
 
 import javax.sound.midi.Soundbank;
 
-//测试自动装箱,自动拆箱
+/*测试自动装箱,自动拆箱*/
 public class TestAutoBox {
 	public static void main(String[] args) {
 		Integer a = 234; // 自动装箱.Integer a =Integer.valueOf(234);
@@ -11,7 +11,7 @@ public class TestAutoBox {
 		int b = a; // 自动拆箱.编译器会修改成：int b=a.intValue();
 
 		// Integer c = null;
-		// int d = c; // 自动拆箱：调用了：C.intValue()
+		// int d = c; // 自动拆箱:调用了:C.intValue()
 
 		// 缓存[-128,127]之间的数字,实际就是系统初始的时候,创建了[-128,127]之间一个缓存数组
 		Integer in3 = 1234;

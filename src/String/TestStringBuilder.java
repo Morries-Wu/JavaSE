@@ -1,7 +1,7 @@
 package String;
 
 //测试StringBuilder、StringBuffer是可变字符序列，数组内容可随意修改
-public class TestStringBuilder {
+public class 	TestStringBuilder {
 	public static void main(String[] args) {
 
 		// StringBuilder线程不安全,效率高（一般用它）,StringBuffer线程安全,效率低

@@ -1,6 +1,5 @@
 package Polymorphic;
 
-import javax.swing.AbstractCellEditor;
 
 public interface MyInterface {
 	int MAX_AGE = 100; // maxage==public static final int MAX_AGE=100;
