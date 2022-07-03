@@ -1,0 +1,209 @@
+一、数组
+数组有定长特性,长度一旦指定,不可更改。
+
+@扩展方法: Arrays.fill快速初始化,填充一个数组
+java中的数组初始值都为零,若快速填充一个其他值的数组,即将数组批量填充相同的值,可以用 Arrays.fill 方法,但只能填充一个一维数组,多维数组还得用循环。
+
+import java.util.Arrays;
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        int[] arr = new int[5];
+        Arrays.fill(arr, 1);
+        System.out.println(Arrays.toString(arr));  // [1, 1, 1, 1, 1]
+    }
+}
+
+数组原理内存图
+内存概述
+内存是计算机中的重要原件,临时存储区域,作用是运行程序。我们编写的程序是存放在硬盘中的,在硬盘中的程序是不会运行的
+必须放进"内存"中才能运行,运行完毕后会清空内存。 Java虚拟机要运行程序,必须要对内存进行空间的分配和管理。
+
+
+Java虚拟机的内存划分
+为了提高运算效率,就对空间进行了不同区域的划分,因为每一片区域都有特定的处理数据方式和内存管理方式。
+
+JVM的内存划分
+区域名称	    作用
+寄存器	    给CPU使用,和我们开发无关。
+本地方法栈	JVM在使用操作系统功能的时候使用,和我们开发无关。
+方法区	    存储可以运行的class文件。
+堆内存	    存储对象或者数组,new来创建的,都存储在堆内存。
+方法栈	    方法运行时使用的内存,比如main方法运行,进入方法栈中执行。
+
+
+程序执行流程:
+1、main方法进入方法栈执行
+2、创建数组,JVM会在堆内存中开辟空间,存储数组
+3、数组在内存中会有自己的内存地址,以十六进制数表示
+4、数组中有3个元素,默认值为0
+5、JVM将数组的内存地址赋值给引用类型变量array
+6、变量array保存的是数组内存中的地址,而不是一个具体数值,因此称为引用数据类型。
+
+arr = null 这行代码,意味着变量arr将不会在保存数组的内存地址,也就不允许再操作数组了
+因此运行的时候 会抛出 NullPointerException 空指针异常。
+在开发中,数组的空指针异常是不能出现的,一旦出现了,就必须要修改我们编写的代码。
+
+二、Integer与int
+Integer是int的包装类, int是基本数据类型
+一个是基本数据类型, 一个是类
+
+Integer的默认初始值是null,而int的默认初试值是0。
+Integer变量必须先实例,int变量则可以直接使用
+
+在Integer类中,“==”用来比较对象地址是否相同,并且Integer类重写了equals(Object obj)方法,在equals(Object obj)方法中
+会先判断参数中的对象obj是否是Integer类型的对象,如果是则判断值是否相同,值相同则返回true,值不同则返回false
+如果obj不是Integer类的对象,则返回false。
+需要注意的是:当参数是基本类型int时,编译器会给int自动装箱成Integer类,然后再进行比较。
+
+既然提到了拆箱和装箱, 装箱就是由基本数据类型封装成类的过程, 反而反之
+那么什么时候会拆箱？——基本数据类型和引用数据类型做运算时
+什么时候会装箱？——基本数据类型赋值给引用数据类型的时候
+
+Integer变量实际上是对一个Integer对象的引用
+所以两个通过new生成的Integer变量永远是不相等的（new生成的是两个对象,其内存地址不同）。
+
+对于两个非new生成的Integer对象,进行比较时,如果两个变量的值在区间-128到127之间
+则比较结果为true,如果两个变量的值不在此区间,则比较结果为false
+Integer i = 1;
+Integer j = 1;
+System.out.print(i == j);  true
+
+三、String、StringBuffer、StringBuilder
+1、java中规定,双引号括起来的字符串,是 不可变 的,也就是说"abc"自出生到最终死亡,不可变,不能变成"abcd",也不能变成"ab"
+2、在JDK当中双引号括起来的字符串,例如:"abc" "def"都是直接存储在“方法区”的“字符串常量池”当中的。
+3、为什么SUN公司把字符串存储在一个"字符串常量池"当中呢？
+  因为字符串在实际的开发中使用太频繁。为了执行效率,所以把字符串放到了方法区的字符串常量池当中。
+4、String每一次改变都会创建一个新的对象,而StringBuilder(StringBuffer线程安全)的操作都只需创建一个对象即可
+
+StringBuilder线程不安全,效率高（一般用它）,StringBuffer线程安全,效率低
+StringBuilder和String不一样,但可以做各种截断处理因为内层char vaule[]可修改;
+两者在大致上时相同的,只是StringBuffer添加了synchronized关键字,更加安全,但是效率也更低
+
+String s1 = "abc";
+String s2 = "xyz";
+String s3 = s1 + s2;
+String s4 = "abc" + "xyz";
+String s5 = "zbcxyz";
+System.out.println(s3 == s4); false
+System.out.println(s4 == s5); true
+
+s1、s2都在常量池中,而s3=s1+s2,s3不会放在常量池中（只有字面常量才会放在常量池中）,所以s3放在堆中
+s4是两个字面常量拼接,所以会放在常量池中,内容为"abcxyz",s5创建时,现在常量池中找到了相同的,所以两者引用相同
+所以s3和s4的引用不同,s4和s5的引用相同
+
+四、面相对象编程(OOP-Object Oriented Programming)
+本质:以类的方式组织代码,以对象的组织（封装）数据。
+三大特性:封装、继承、多态
+封装:核心思想就是"隐藏细节"、"数据安全",将对象不需要让外界访问的成员变量和方法私有化
+    只提供符合开发者意愿的公有方法来访问这些数据和逻辑,保证了数据的安全和程序的稳定。所有的内容对外部不可见。
+继承:子类可以继承父类的属性和方法,并对其进行拓展。将其他的功能继承下来继续发展 。
+多态:同一种类型的对象执行同一个方法时可以表现出不同的行为特征。
+    通过继承的上下转型、接口的回调以及方法的重写和重载可以实现多态。方法的重载本身就是一个多态性的体现
+
+匿名对象
+没有对象名称的对象就是匿名对象。 即栈内存中没有名字,而堆内存中有对象。
+匿名对象只能使用一次,因为没有任何的对象引用,所以将称为垃圾,等待被GC回收。
+只使用一次的对象可以通过匿名对象的方式完成,这一点在以后的开发中将经常使用到。
+
+垃圾回收器回收堆内存的规则:
+当栈内存中不存在此对象的引用时,则视其为垃圾 ,等待垃圾回收器回收!
+
+方法区是被所有线程共享:
+所有的字段和方法字节码,以及一些特殊方法如构造函数,接口代码也再此定义。
+简单说,所有定义的方法的信息都保存在该区域,此区属于共享区间。
+这些区域储存的是:静态变量+常量+类信息（构造方法/接口定义）+运行时常量池。
+但是,实例变量存在堆内存中,和方法区无关。
+
+1、成员内部类
+2、局部内部类
+3、匿名内部类
+4、静态内部类
+
+成员内部类
+成员内部类是最普通的内部类,它的定义为位于另一个类的内部,形如下面的形式:
+public class Demo{
+    public static void main(String[] args){
+        //外部使用成员内部类
+		Outer outter = new Outer(100);
+		Outer.Inner inner = outter.new Inner();
+        inner.say();
+    }
+}
+class Outer {
+    private double x = 0;
+    public Outer(double x) {
+        this.x = x;
+    }
+    class Inner {
+        private double x=200;
+        /*内部类*/
+        public void say() {
+            System.out.println(x);
+            System.out.println(Outer.this.x);
+        }
+    }
+}
+
+特点:成员内部类可以无条件访问外部类的所有成员属性和成员方法（包括private成员和静态成员）。
+不过要注意的是,当成员内部类拥有和外部类同名的成员变量或者方法时,会发生隐藏现象,即默认情况下访问的是成员内部类的成员。
+如果要访问外部类的同名成员,需要以下面的形式进行访问:
+外部类.this.成员变量
+外部类.this.成员方法
+
+局部内部类
+局部内部类是定义在一个方法或者一个作用域里面的类,它和成员内部类的区别在于局部内部类的访问仅限于方法内或者该作用域内。
+interface Person{
+    public void say();
+}
+public class Demo{
+    public static void main(String[] args){
+        //局部内部类
+        class PersonImp implements Person{
+            @Override
+            public void say(){
+                System.out.prinln("新编写的局部内部类的say方法内容");
+            }
+        }
+        PersonImp p=new PersonImp();
+        /*这里像调用haha()方法,但是需要一个Person类,为此专门创建一个class文件类很浪费时间,所以使用局部内部类*/
+        haha(p);
+    }
+    public static void haha(Person p){ }
+}
+
+/*窗口关闭/*
+public static void main(String[] args){
+    Frame f=new Frame("QQ登陆器");
+    f.setVisible(true);
+    f.setSize(300,200);
+    class MyWindowListener implements WindowListener{
+        @Override
+        public void windowClosing(WindowEvent e){
+            System.out.println("哈哈哈");
+        }
+    }
+    MyWindowListener l=new MyWindowListener();
+    /*想要添加一个窗口关闭的事件,可以使用局部类*/
+    f.addWindowListener(l);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
